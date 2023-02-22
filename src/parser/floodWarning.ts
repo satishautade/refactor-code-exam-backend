@@ -1,4 +1,4 @@
-import { Downloader } from "../floods/Downloader";
+import { DownloadFloodWarning } from "../floods/DownloadFloodWarning";
 import { parseXml } from "./parser";
 
 export class FloodWarningParser {
@@ -119,7 +119,7 @@ export class FloodWarningParser {
         resolve(data);
       });
     });
-    const downloader = new Downloader();
+    const downloader = new DownloadFloodWarning();
 
     const warningText = await downloader.downloadText(obj.amoc.identifier[0]);
 

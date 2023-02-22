@@ -1,6 +1,6 @@
 import { FtpClient, FtpOptions } from "./FtpClient";
 
-class FloodWarningDownloader {
+class ListFloodWarnings {
 
   private ftpClient: FtpClient;
 
@@ -40,4 +40,4 @@ class FloodWarningDownloader {
   }
 }
 
-export default FloodWarningDownloader;
+export default ListFloodWarnings;

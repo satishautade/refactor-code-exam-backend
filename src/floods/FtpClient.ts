@@ -1,11 +1,12 @@
 import { Client } from "basic-ftp";
-
+import path from "path";
 
 export interface FtpOptions {
   host:string;
   secure: boolean;
   verbose: boolean;
   remotePath: string;
+  localPath: string;
 };
 
 export class FtpClient {
@@ -13,8 +14,9 @@ export class FtpClient {
   private options : FtpOptions = {
     host: "ftp.bom.gov.au",
     secure: false,
-    verbose: true,
-    remotePath: "/anon/gen/fwo/"
+    verbose: false,
+    remotePath: "/anon/gen/fwo/",
+    localPath: path.join(__dirname, '..', '..', 'ftp-downloads')
   };
 
   constructor() {
@@ -33,6 +35,11 @@ export class FtpClient {
   async listFiles(): Promise<string[]> {
     const files = await this.client.list();
     return files.map((file) => file.name);
+  }
+
+
+  async downloadFile(fileName: string, remotePath: string, ): Promise<void> {
+    await this.client.downloadTo(path.join(this.options.localPath, fileName), remotePath);
   }
 
   async close(): Promise<void> {

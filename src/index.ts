@@ -1,7 +1,7 @@
 import { downloadTo } from "basic-ftp/dist/transfer";
 import express from "express";
-import FloodWarningDownloader from "./floods/FloodWarningDownloader";
-import { Downloader } from "./floods/Downloader";
+import ListFloodWarnings from "./floods/ListFloodWarning";
+import { DownloadFloodWarning } from "./floods/DownloadFloodWarning";
 import { getAmocToStateId } from "./getAmocToStateId";
 import { FloodWarningParser } from "./parser/floodWarning";
 import { parseXml } from "./parser/parser";
@@ -15,7 +15,7 @@ const ERRORMESSAGE = "Something went wrong";
 
 app.get("/", async (req, res) => {
   try {
-    const floodWarningDownloader = new FloodWarningDownloader();
+    const floodWarningDownloader = new ListFloodWarnings();
     const warnings = await floodWarningDownloader.getWarnings();
     const state = getAmocToStateId(req.query.state?.toString() || "");
 
@@ -40,10 +40,10 @@ app.get("/", async (req, res) => {
 
 app.get("/warning/:id", async (req, res) => {
   try {
-    const downloader = new Downloader();
+    const downloader = new DownloadFloodWarning();
     const xmlid = req.params.id;
 
-    const warning = await downloader.download(xmlid);
+    const warning = await downloader.downloadAsXml(xmlid);
     const warningParser = new FloodWarningParser(warning);
     const text = await downloader.downloadText(xmlid);
 

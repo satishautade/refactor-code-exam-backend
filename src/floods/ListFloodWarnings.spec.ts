@@ -1,4 +1,4 @@
-import FloodWarningDownloader from "./FloodWarningDownloader";
+import ListFloodWarnings from "./ListFloodWarning";
 /**
  * NOTE: Ideally the unit tests shouldn't be going over the wire.
  * These unit tests call the actual FPT server and download files. 
@@ -9,10 +9,10 @@ import FloodWarningDownloader from "./FloodWarningDownloader";
  * This is too much of an effort to go through in the coding challenge :)
  */
 describe("FloodWarningDownloader should be getting warning data", () => {
-  let downloader: FloodWarningDownloader;
+  let downloader: ListFloodWarnings;
   
   beforeAll(() => {
-    downloader = new FloodWarningDownloader();
+    downloader = new ListFloodWarnings();
   });
 
   afterAll(async () => {
