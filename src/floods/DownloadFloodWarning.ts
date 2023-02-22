@@ -29,7 +29,7 @@ export class DownloadFloodWarning {
     return data;
   }
 
-  async downloadText(key: string): Promise<string> {
+  async downloadAsText(key: string): Promise<string> {
     await this.ftpClient.connect();
     await this.ftpClient.changeWorkingDirectory();
 

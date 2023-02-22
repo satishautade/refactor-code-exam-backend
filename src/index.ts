@@ -45,7 +45,7 @@ app.get("/warning/:id", async (req, res) => {
 
     const warning = await downloader.downloadAsXml(xmlid);
     const warningParser = new FloodWarningParser(warning);
-    const text = await downloader.downloadText(xmlid);
+    const text = await downloader.downloadAsText(xmlid);
 
     res.send({ ...(await warningParser.getWarning()), text: text || "" });
   } catch (error) {

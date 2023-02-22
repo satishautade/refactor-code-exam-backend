@@ -121,7 +121,7 @@ export class FloodWarningParser {
     });
     const downloader = new DownloadFloodWarning();
 
-    const warningText = await downloader.downloadText(obj.amoc.identifier[0]);
+    const warningText = await downloader.downloadAsText(obj.amoc.identifier[0]);
 
     return warningText;
   }
