@@ -1,6 +1,6 @@
 import { downloadTo } from "basic-ftp/dist/transfer";
 import express from "express";
-import { getWarnings } from "./floods/amoc";
+import FloodWarningDownloader from "./floods/FloodWarningDownloader";
 import { Downloader } from "./floods/Downloader";
 import { getAmocToStateId } from "./getAmocToStateId";
 import { FloodWarningParser } from "./parser/floodWarning";
@@ -15,16 +15,20 @@ const ERRORMESSAGE = "Something went wrong";
 
 app.get("/", async (req, res) => {
   try {
-    const data = await getWarnings();
-
+    const floodWarningDownloader = new FloodWarningDownloader();
+    const warnings = await floodWarningDownloader.getWarnings();
     const state = getAmocToStateId(req.query.state?.toString() || "");
 
-    let results = [];
-    for (let key in data) {
-      if (key.startsWith(state)) {
-        results.push(key.replace(/\.amoc\.xml/, ""));
-      }
-    }
+    // let results = [];
+    // for (let key in data) {
+    //   if (key.startsWith(state)) {
+    //     results.push(key.replace(/\.amoc\.xml/, ""));
+    //   }
+    // }
+
+    const results = warnings
+    .filter((warning) => warning.startsWith(state))
+    .map((warning) => warning.replace(/\.amoc\.xml$/, ""));
 
     res.send(results);
   } catch (error) {
