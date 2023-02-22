@@ -1,23 +1,20 @@
-import { Client } from "basic-ftp";
+import { FtpClient, FtpOptions } from "./FtpClient";
 
 class FloodWarningDownloader {
-  private client: Client;
+
+  private ftpClient: FtpClient;
 
   constructor() {
-    this.client = new Client();
-    this.client.ftp.verbose = true;
+    this.ftpClient = new FtpClient();
   }
 
   public async getWarnings(): Promise<string[]> {
     try {
-      await this.client.access({
-        host: "ftp.bom.gov.au",
-        secure: false,
-      });
+      await this.ftpClient.connect();
 
-      await this.client.cd("/anon/gen/fwo/");
+      await this.ftpClient.changeWorkingDirectory();
 
-      const files = await this.client.list();
+      const files = await this.ftpClient.listFiles();
 
       //   let warns: any = {};
       // for (var file in files) {
@@ -27,20 +24,19 @@ class FloodWarningDownloader {
       // }
 
       const warns: string[] = files
-        .filter((file) => file.name.endsWith(".amoc.xml"))
-        .map((file) => file.name);
+        .filter((file) => file.endsWith(".amoc.xml"))
 
       return warns;
     } catch (err) {
       console.log(err);
       return [];
     } finally {
-      await this.client.close();
+      await this.ftpClient.close();
     }
   }
 
   public async close(){
-    await this.client.close();
+    await this.ftpClient.close();
   }
 }
 

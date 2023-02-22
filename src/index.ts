@@ -35,6 +35,7 @@ app.get("/", async (req, res) => {
     console.log(error);
     res.send(ERRORMESSAGE);
   }
+
 });
 
 app.get("/warning/:id", async (req, res) => {

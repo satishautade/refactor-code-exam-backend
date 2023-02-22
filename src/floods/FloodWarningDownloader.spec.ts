@@ -25,7 +25,7 @@ describe("FloodWarningDownloader should be getting warning data", () => {
     expect(warnings.length).toBeGreaterThan(1);
   });
 
-  it("should download data", async () => {
+  it("should download specific data - IDQ11307.amoc.xml", async () => {
     const warnings = await downloader.getWarnings();
 
     expect(warnings).toContain("IDQ11307.amoc.xml");
